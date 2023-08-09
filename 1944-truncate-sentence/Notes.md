@@ -1,1 +1,1 @@
-<h2>truncate-sentence Notes</h2><hr>StringStream
+<h2>truncate-sentence Notes</h2><hr>logic
