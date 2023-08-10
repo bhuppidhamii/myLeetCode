@@ -1,1 +1,1 @@
-<h2>sqrtx Notes</h2><hr>hahahaha
+<h2>sqrtx Notes</h2><hr>log N
