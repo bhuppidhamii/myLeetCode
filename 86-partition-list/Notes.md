@@ -1,0 +1,1 @@
+<h2>partition-list Notes</h2><hr>ManForce approach
