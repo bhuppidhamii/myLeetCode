@@ -15,19 +15,20 @@ public:
         int ev2ST = timeConverter(event2[0]);
         int ev2ET = timeConverter(event2[1]);
 
-        // Check if the time ranges overlap in any way
-        if ((ev1ST <= ev2ST && ev2ST <= ev1ET) || 
-            // event2 starts within event1
-            (ev1ST <= ev2ET && ev2ET <= ev1ET) || 
-            // event2 ends within event1
-            (ev2ST <= ev1ST && ev1ST <= ev2ET) || 
-            // event1 starts within event2
-            (ev2ST <= ev1ET && ev1ET <= ev2ET))   
-            // event1 ends within event2
-        {
-            return true;
-        }
+        // // Check if the time ranges overlap in any way
+        // if ((ev1ST <= ev2ST && ev2ST <= ev1ET) || 
+        //     // event2 starts within event1
+        //     (ev1ST <= ev2ET && ev2ET <= ev1ET) || 
+        //     // event2 ends within event1
+        //     (ev2ST <= ev1ST && ev1ST <= ev2ET) || 
+        //     // event1 starts within event2
+        //     (ev2ST <= ev1ET && ev1ET <= ev2ET))   
+        //     // event1 ends within event2
+        // {
+        //     return true;
+        // }
 
-        return false;
+        // return false;
+        return ev2ST<=ev1ET && ev1ST<=ev2ET;
     }
 };
