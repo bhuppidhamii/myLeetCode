@@ -1,1 +1,1 @@
-<h2>climbing-stairs Notes</h2><hr>dp
+<h2>climbing-stairs Notes</h2><hr>tabulation
