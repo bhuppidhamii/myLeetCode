@@ -1,1 +1,1 @@
-<h2>climbing-stairs Notes</h2><hr>tabulation
+<h2>climbing-stairs Notes</h2><hr>Dynamic Prpgramming 
