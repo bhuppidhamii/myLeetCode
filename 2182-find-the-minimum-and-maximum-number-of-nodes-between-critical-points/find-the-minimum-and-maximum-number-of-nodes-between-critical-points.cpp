@@ -35,7 +35,7 @@ public:
 
         }
         int n=criticalPoints.size();
-        if(n==0){
+        if(n<2){
             return {-1,-1};
         }
         sort(criticalPoints.begin(), criticalPoints.end());
@@ -45,9 +45,7 @@ public:
             int diff=abs(criticalPoints[i]-criticalPoints[i-1]);
             mini=min(diff, mini);
         }
-        if(mini==INT_MAX || maxi==INT_MIN){
-            return {-1,-1};
-        }
+        
         return {mini,maxi};
     }
 };
