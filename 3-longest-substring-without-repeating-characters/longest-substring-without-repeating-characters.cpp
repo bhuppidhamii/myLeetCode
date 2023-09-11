@@ -7,16 +7,12 @@ public:
         set<char> st;
         int maxsize=0;
         int i=0,j=0;
-        while(j<n)
-        {
-            if(st.count(s[j])==0)
-            {
+        while(j<n){
+            if(st.find(s[j]) == st.end()){
                 st.insert(s[j]);
                 maxsize=max(maxsize,(int)st.size());
                 j++;
-            }
-            else
-            {
+            }else{
                 st.erase(s[i]);
                 i++;
             }
