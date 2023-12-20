@@ -1,8 +1,16 @@
 class Solution {
 public:
     int buyChoco(vector<int>& prices, int money) {
-        sort(prices.begin(), prices.end());
-        int sum=prices[0]+prices[1];
+        int mini1=INT_MAX, mini2=0;
+        for(auto &p:prices){
+            if(p < mini1){
+                mini2 = mini1;
+                mini1 = p;
+            }else{
+                mini2 = min(p, mini2);
+            }
+        }
+        int sum = mini1 + mini2;
         if(sum <= money){
             return money-sum;
         }else{
