@@ -1,31 +1,17 @@
 class Solution {
 public:
-    int maxScore(string s) {
-        int N = s.size();
+    int maxScore(const std::string& s) {
+        int max_score = 0;
+        int count_zeros_left = 0;
+        int count_ones_right = std::count(s.begin(), s.end(), '1');
 
-        vector<int> prefix0(N, 0);
-        int cnt0 = 0;
-        for (int i = 0; i < N; i++) {
-            if (s[i] == '0') {
-                cnt0++;
-            }
-            prefix0[i] = cnt0;
+        for (int i = 0; i < s.size() - 1; ++i) {
+            count_zeros_left += (s[i] == '0');
+            count_ones_right -= (s[i] == '1');
+            max_score =
+                std::max(max_score, count_zeros_left + count_ones_right);
         }
 
-        vector<int> prefix1(N, 0);
-        int cnt1 = 0;
-        for (int i = N - 1; i >= 0; i--) {
-            if (s[i] == '1') {
-                cnt1++;
-            }
-            prefix1[i] = cnt1;
-        }
-
-        int ans = INT_MIN;
-        for (int i = 0; i < N - 1; i++) {
-            int sum = prefix0[i] + prefix1[i + 1];
-            ans = max(sum, ans);
-        }
-        return ans;
+        return max_score;
     }
 };
