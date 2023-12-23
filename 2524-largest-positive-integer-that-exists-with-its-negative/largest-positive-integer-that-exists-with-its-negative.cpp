@@ -1,15 +1,19 @@
 class Solution {
 public:
     int findMaxK(vector<int>& nums) {
-        int N = nums.size();
-        int ans = -1;
-        for (int i = 0; i < N; i++) {
-            for (int j = i + 1; j < N; j++) {
-                if ((nums[i] + nums[j]) == 0) {
-                    ans = max(ans, abs(nums[i]));
-                }
+        int maxi = -1;
+        map<int, int> m;
+        for (auto& i : nums) {
+            if (m.find(i) != m.end()) {
+                maxi = max(maxi, abs(i));
+                continue;
+            }
+            if (i > 0) {
+                m[-i]++;
+            } else {
+                m[abs(i)]++;
             }
         }
-        return ans;
+        return maxi;
     }
 };
