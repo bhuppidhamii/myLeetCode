@@ -1,30 +1,22 @@
 class Solution {
 public:
     int minOperations(string s) {
-        int N = s.size();
-        string str1 = "", str2 = "";
-        for (int i = 0; i < N; i++) {
-            if (i % 2 == 0) {
-                str1 += '0';
-                str2 += '1';
-            } else {
-                str1 += '1';
-                str2 += '0';
-            }
-        }
+        int N = s.size(), cnt1 = 0, cnt2 = 0;
+        bool curr1 = s[0] - '0';
+        bool curr2 = !curr1;
+        cout << curr1 << " " << curr2;
 
-        cout << s << "\n" << str1 << "\n" << str2;
-        int cnt1 = 0, cnt2 = 0;
         for (int i = 0; i < N; i++) {
-            if (s[i] != str1[i]) {
+            if (s[i] - '0' != curr1) {
                 cnt1++;
             }
+            curr1 = !curr1;
 
-            if (s[i] != str2[i]) {
+            if (s[i] - '0' != curr2) {
                 cnt2++;
             }
+            curr2 = !curr2;
         }
-
         return min(cnt1, cnt2);
     }
 };
