@@ -1,33 +1,19 @@
 class Solution {
 public:
     vector<vector<int>> findMatrix(vector<int>& nums) {
-        map<int, int> m;
+        map<int, int> mp;
+        int max_rows = 0;
         for (auto i : nums) {
-            m[i]++;
+            mp[i]++;
+            max_rows = max(max_rows, mp[i]);
+        }
+        vector<vector<int>> v(max_rows);
+        for (auto j : mp) {
+            for (int i = 0; i < j.second; i++) {
+                v[i].push_back(j.first);
+            }
         }
 
-        vector<vector<int>> ans;
-        while (!m.empty()) {
-            vector<int> v;
-            vector<int> to_erase;
-
-            for (auto& i : m) {
-                int num = i.first;
-                v.push_back(num);
-
-                if (i.second == 1) {
-                    to_erase.push_back(num);
-                } else {
-                    i.second--;
-                }
-            }
-
-            for (int num : to_erase) {
-                m.erase(num);
-            }
-
-            ans.push_back(v);
-        }
-        return ans;
+        return v;
     }
 };
