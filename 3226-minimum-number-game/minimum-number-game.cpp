@@ -1,21 +1,12 @@
 class Solution {
 public:
     vector<int> numberGame(vector<int>& nums) {
-        vector<int>arr;
-        priority_queue<int, vector<int>, greater<int> > pq;
-        for(auto i:nums){
-            pq.push(i);
+        sort(nums.begin(), nums.end());
+        // 2 3 4 5
+        // 0 1 2 3
+        for (int i = 0; i < nums.size(); i += 2) {
+            swap(nums[i], nums[i + 1]);
         }
-
-        while(!pq.empty()){
-            int a=pq.top();
-            pq.pop();
-            int b=pq.top();
-            pq.pop();
-
-            arr.push_back(b);
-            arr.push_back(a);
-        }
-        return arr;
+        return nums;
     }
 };
