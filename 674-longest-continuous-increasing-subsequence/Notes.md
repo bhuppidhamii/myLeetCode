@@ -1,1 +1,1 @@
-<h2>longest-continuous-increasing-subsequence Notes</h2><hr>bruteforce
+<h2>longest-continuous-increasing-subsequence Notes</h2><hr>in single pass
