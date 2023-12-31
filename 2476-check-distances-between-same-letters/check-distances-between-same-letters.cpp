@@ -1,17 +1,14 @@
 class Solution {
 public:
     bool checkDistances(string s, vector<int>& distance) {
-        unordered_map<char, int> m;
         int N = s.size();
         for (int i = 0; i < N; i++) {
-            int dist = 0;
-            if (m.find(s[i]) != m.end()) {
-                dist = max(dist, i - m[s[i]] - 1);
-                if (distance[s[i] - 'a'] != dist) {
+            int lst = s.find_last_of(s[i]);
+            int dist = lst - i - 1;
+            if (lst != i) {
+                if (dist != distance[s[i] - 'a']) {
                     return false;
                 }
-            } else {
-                m[s[i]] = i;
             }
         }
         return true;
