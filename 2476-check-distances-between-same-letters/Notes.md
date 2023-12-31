@@ -1,0 +1,1 @@
+<h2>check-distances-between-same-letters Notes</h2><hr>str.find_last_of(ch);
