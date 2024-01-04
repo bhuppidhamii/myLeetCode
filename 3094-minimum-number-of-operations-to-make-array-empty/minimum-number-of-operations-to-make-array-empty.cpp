@@ -5,18 +5,15 @@ public:
         for (auto i : nums) {
             m[i]++;
         }
-        for (auto i : m) {
-            if (i.second == 1) {
-                return -1;
-            }
-        }
 
         int count = 0;
         while (m.size() > 0) {
-            cout<<m.size()<<" ";
             for (auto i : m) {
                 int num = i.first;
                 int freq = i.second;
+                if (freq == 1){
+                    return -1;
+                }
                 if (freq % 3 == 0) {
                     freq -= 3;
                 } else {
