@@ -1,21 +1,33 @@
 class Solution {
 public:
-    int lengthOfLIS(vector<int>& nums) {
-        int n=nums.size();
-        if(n==0) return 0;
-
-        vector<int>ans;
-        ans.push_back(nums[0]);
-
-        for(int i=1;i<n;i++){
-            if(nums[i] > ans.back()){
-                ans.push_back(nums[i]);
-            }else{
-                int index=lower_bound(ans.begin(), ans.end(), nums[i]) - ans.begin();
-                // int index = address - index
-                ans[index]=nums[i];
-            }
+    int n;
+    int dp[2501][2501];
+    int solve(int i, int p, vector<int>& nums) {
+        if (i >= n) {
+            return 0;
         }
-        return ans.size();
+
+        if (p != -1 && dp[i][p] != -1) {
+            return dp[i][p];
+        }
+
+        int take = 0;
+        if (p == -1 || nums[i] > nums[p]) {
+            take = 1 + solve(i + 1, i, nums);
+        }
+
+        int skip = solve(i + 1, p, nums);
+
+        if (p != -1) {
+            dp[i][p] = max(take, skip);
+        }
+        return max(take, skip);
+    }
+
+    int lengthOfLIS(vector<int>& nums) {
+        n = nums.size();
+        // initialize dp array with -1
+        memset(dp, -1, sizeof(dp));
+        return solve(0, -1, nums);
     }
 };
