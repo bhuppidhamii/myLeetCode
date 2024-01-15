@@ -1,47 +1,26 @@
 class Solution {
 public:
     vector<vector<int>> findWinners(vector<vector<int>>& matches) {
-        vector<pair<int,int>>m;
+        map<int,int>losers;
+        for(auto i:matches){
+            losers[i[1]]++;
+        }
+
+        vector<vector<int>>ans(2);
         for(auto i:matches){
             int winner=i[0];
             int loser=i[1];
-            m.push_back({winner,loser});
-        }
+            if(losers.find(winner)==losers.end()){
+                ans[0].push_back(winner);
+                losers[winner]=2;
+            }
 
-        map<int,int>winners;
-        for(auto i:m){
-            winners[i.first]++;
-        }
-
-        map<int,int>losers;
-        for(auto i:m){
-            losers[i.second]++;
-        }
-
-        vector<int>NotlostanyMatch;
-        for(auto i:winners){
-            if(losers.find(i.first)==losers.end()){
-                NotlostanyMatch.push_back(i.first);
+            if(losers[loser]==1){
+                ans[1].push_back(loser);
             }
         }
-
-        vector<int>lostoneMatch;
-        for(auto i:losers){
-            if(i.second==1){
-                lostoneMatch.push_back(i.first);
-            }
-        }
-
-        for(auto i:NotlostanyMatch){
-            cout<<i<<" ";
-        }
-        cout<<"\n";
-        for(auto i:lostoneMatch){
-            cout<<i<<" ";
-        }
-        vector<vector<int>>answer;
-        answer.push_back(NotlostanyMatch);
-        answer.push_back(lostoneMatch);
-        return answer;
+        sort(ans[0].begin(), ans[0].end());
+        sort(ans[1].begin(), ans[1].end());
+        return ans;
     }
 };
