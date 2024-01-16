@@ -23,9 +23,9 @@ public:
         }
         int idx = m[val];
         int last_element = v.back();
-        v.back() = val;
 
-        v[idx] = last_element;
+        swap(v[idx], v[v.size()-1]);
+        
         m[last_element] = idx;
 
         v.pop_back();
