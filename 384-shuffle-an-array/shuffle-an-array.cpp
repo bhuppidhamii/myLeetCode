@@ -1,25 +1,25 @@
 class Solution {
 public:
-    vector<int>v;
-    vector<int>og;
+    vector<int> og;
+    int n;
     Solution(vector<int>& nums) {
-        v=nums;
-        og=nums;
+        og = nums;
+        n = nums.size();
     }
-    
-    vector<int> reset() {
-        return og;
-    }
-    
+
+    vector<int> reset() { return og; }
+
     vector<int> shuffle() {
-        random_shuffle(v.begin(), v.end());
-        return v;
+        vector<int> shuffled = og;
+
+        int leftSize = n;
+
+        for (int i = n - 1; i >= 0; i--) {
+            int j = rand() % leftSize;
+
+            swap(shuffled[i], shuffled[j]);
+            leftSize--;
+        }
+        return shuffled;
     }
 };
-
-/**
- * Your Solution object will be instantiated and called as such:
- * Solution* obj = new Solution(nums);
- * vector<int> param_1 = obj->reset();
- * vector<int> param_2 = obj->shuffle();
- */
