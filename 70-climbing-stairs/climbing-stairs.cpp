@@ -1,18 +1,17 @@
 class Solution {
 public:
-    int solve(int n,vector<int> &dp){
-        //base case
-        if(n<=2) return n;
-        
-        if(dp[n]!=-1) return dp[n]; 
-        
-        dp[n] = solve(n-1,dp) + solve(n-2,dp);
-        return dp[n];
+    int dp[46];
+    int solve(int n) {
+        if (n < 0)
+            return 0;
+        if (n == 0)
+            return 1;
+        if (dp[n] != -1)
+            return dp[n];
+        return dp[n] = solve(n - 1) + solve(n - 2);
     }
     int climbStairs(int n) {
-        if(n<=2) return n;
-
-        vector<int> dp(n+1, -1);
-        return solve(n, dp);
+        memset(dp, -1, sizeof(dp));
+        return solve(n);
     }
 };
