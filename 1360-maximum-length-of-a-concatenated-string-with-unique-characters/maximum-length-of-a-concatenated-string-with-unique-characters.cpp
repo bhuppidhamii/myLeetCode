@@ -1,5 +1,6 @@
 class Solution {
 public:
+    unordered_map<string,int>m;
     bool hasDuplicate(string s1, string s2) {
         int arr[26] = {0};
         for (auto s : s1) {
@@ -25,15 +26,20 @@ public:
         int include = 0;
         int exclude = 0;
 
+        if(m.find(temp)!=m.end()){ //already found
+            return m[temp];
+        }
+
         if (hasDuplicate(temp, arr[i])) { // exclude only
             exclude = solve(arr, temp, i + 1);
         } else {
             exclude = solve(arr, temp, i + 1);
             include = arr[i].size() + solve(arr, temp + arr[i], i + 1);
         }
-        return max(include, exclude);
+        return m[temp]=max(include, exclude);
     }
     int maxLength(vector<string>& arr) {
+        m.clear();
         n = arr.size();
         string temp = "";
         return solve(arr, temp, 0);
