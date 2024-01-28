@@ -1,15 +1,13 @@
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-        map<int,int>m;
-        int count=0,sum=0;
-        m[0]=1;
-        for(auto i:nums){
-            sum+=i;
-            // if(sum == k) count++;
-            int rem=sum-k;
-            if(m.find(rem) != m.end()){
-                count+=m[rem];
+        map<int, int> m;
+        m[0] = 1; // corner-case
+        int sum = 0, count = 0, n = nums.size();
+        for (int i = 0; i < n; i++) {
+            sum += nums[i]; // cumulative sum
+            if (m.find(sum - k) != m.end()) {
+                count += m[sum - k];
             }
             m[sum]++;
         }
