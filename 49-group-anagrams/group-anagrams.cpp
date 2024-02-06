@@ -10,10 +10,10 @@ public:
             }
             string temp = "";
             for (int i = 0; i < 26; i++) {
-                if (v[i] >= 1) {
-                    for (int j = 0; j < v[i]; j++) {
-                        temp += 'a' + i;
-                    }
+                int freq=v[i];
+                char c='a'+i;
+                if (freq > 0) {
+                    temp+=string(freq, c);
                 }
             }
             m[temp].push_back(s);
