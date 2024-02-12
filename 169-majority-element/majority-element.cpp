@@ -1,16 +1,21 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        int N=nums.size();
-        map<int,int>m;
-        for(auto i:nums){
-            m[i]++;
-        }
-        for(auto i:nums){
-            if(m[i] > N/2){
-                return i;
+        // Boyer-Moore Voting Algorithm
+        int n = nums.size(), candidate = nums[0];
+        int count = 1;
+        for (int i = 1; i < n; i++) {
+            if (count == 0) {
+                candidate = nums[i];
+                count = 1;
+            } else {
+                if (nums[i] == candidate) {
+                    count++;
+                } else {
+                    count--;
+                }
             }
         }
-        return -1;
+        return candidate;
     }
 };
