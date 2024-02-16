@@ -6,23 +6,18 @@ public:
             m[i]++;
         }
 
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>pq;
+        vector<int> freq;
         for (auto i : m) {
-            pq.push({i.second, i.first});
+            freq.push_back(i.second);
         }
+        sort(begin(freq), end(freq));
 
-        while (k > 0 && !pq.empty()) {
-            int freq = pq.top().first;
-            int num = pq.top().second;
-            pq.pop();
-            if (k >= freq) {
-                k -= freq;
-            } else {
-                pq.push({freq - k, num});
-                k = 0;
+        for (int i = 0; i < freq.size(); i++) {
+            k -= freq[i];
+            if (k < 0) {
+                return freq.size() - i;
             }
         }
-
-        return pq.size();
+        return 0;
     }
 };
