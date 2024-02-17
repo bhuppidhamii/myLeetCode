@@ -1,30 +1,26 @@
 class Solution {
 public:
-    TreeNode* sortedListToBST(ListNode* head) {
-        if (!head) {
+    TreeNode* solve(vector<int>& nums, int s, int e, int n) {
+        if (s > e) {
             return NULL;
         }
-        if (head->next == NULL) {
-            return new TreeNode(head->val);
-        }
+        int mid = (s + e + 1) / 2; 
 
-        ListNode* slow = head;
-        ListNode* fast = head;
-        ListNode* slow_prev = NULL;
-
-        while (fast != NULL && fast->next != NULL) {
-            slow_prev = slow;
-            slow = slow->next;
-            fast = fast->next->next;
-        }
-        // slow will point to mid
-        TreeNode *root=new TreeNode(slow->val);
-
-        slow_prev->next=NULL;
-        root->left=sortedListToBST(head);
-
-        root->right=sortedListToBST(slow->next);
-        
+        TreeNode* root = new TreeNode(nums[mid]);
+        root->left = solve(nums, s, mid - 1, n);
+        root->right = solve(nums, mid + 1, e, n);
         return root;
+    }
+    TreeNode* sortedListToBST(ListNode* head) {
+        ListNode* temp = head;
+        vector<int> nums;
+        while (temp != NULL) {
+            nums.push_back(temp->val);
+            temp = temp->next;
+        }
+
+        int n = nums.size();
+        int s = 0, e = n - 1;
+        return solve(nums, s, e, n);
     }
 };
