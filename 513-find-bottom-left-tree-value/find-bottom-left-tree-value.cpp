@@ -1,24 +1,20 @@
 class Solution {
 public:
-    int findBottomLeftValue(TreeNode* root) {
-        queue<TreeNode*> q;
-        q.push(root);
-        int leftmost_value;
+    int maxDepth = -1;
+    int ans = 0;
+    void dfs(TreeNode* root, int currDepth) {
+        if (!root) return;
 
-        while (!q.empty()) {
-            TreeNode* node = q.front();
-            q.pop();
-
-            leftmost_value = node->val;
-
-            if (node->right) {
-                q.push(node->right);
-            }
-            if (node->left) {
-                q.push(node->left);
-            }
+        if (currDepth > maxDepth) {
+            ans = root->val;
+            maxDepth = currDepth;
         }
 
-        return leftmost_value;
+        dfs(root->left, 1 + currDepth);
+        dfs(root->right, 1 + currDepth);
+    }
+    int findBottomLeftValue(TreeNode* root) {
+        dfs(root, 0);
+        return ans;
     }
 };
