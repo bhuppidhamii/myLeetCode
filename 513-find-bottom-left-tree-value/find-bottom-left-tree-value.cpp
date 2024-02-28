@@ -1,33 +1,24 @@
 class Solution {
 public:
     int findBottomLeftValue(TreeNode* root) {
-        // level order traversal
-        vector<vector<int>> lvls;
-        if (root == NULL) {
-            return 0;
-        }
-
         queue<TreeNode*> q;
         q.push(root);
+        int leftmost_value;
+
         while (!q.empty()) {
-            int size = q.size();
-            vector<int> lvl;
-            for (int i = 0; i < size; i++) {
-                TreeNode* node = q.front();
-                q.pop();
+            TreeNode* node = q.front();
+            q.pop();
 
-                if (node->left) {
-                    q.push(node->left);
-                }
-                if (node->right) {
-                    q.push(node->right);
-                }
+            leftmost_value = node->val;
 
-                lvl.push_back(node->val);
+            if (node->right) {
+                q.push(node->right);
             }
-            lvls.push_back(lvl);
+            if (node->left) {
+                q.push(node->left);
+            }
         }
-        int n=lvls.size();
-        return lvls[n-1][0];
+
+        return leftmost_value;
     }
 };
