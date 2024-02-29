@@ -1,24 +1,23 @@
 class Solution {
 public:
-    int sol(TreeNode* root, bool d, int l) {
+    int maxPath = 0;
+    void solve(TreeNode* root, int l, bool goLeft) {
         if (root == NULL)
-            return l;
+            return;
+        maxPath = max(l, maxPath);
 
-        if (d == 0) {
-            // go right
-            return max(sol(root->left, 0, 0), sol(root->right, 1, l + 1));
+        if (goLeft == true) {
+            solve(root->left, l + 1, false);
+            solve(root->right, 1, true);
         } else {
-            // go left
-            return max(sol(root->left, 0, l + 1), sol(root->right, 1, 0));
+            solve(root->right, l + 1, true);
+            solve(root->left, 1, false);
         }
     }
     int longestZigZag(TreeNode* root) {
-        if (root == NULL)
-            return 0;
-        // 0 -> left
-        // 1 -> right         
-        int left = sol(root->left, 0, 0);
-        int right = sol(root->right, 1, 0);
-        return max(left, right);
+        solve(root, 0, true);
+        solve(root, 0, true);
+
+        return maxPath;
     }
 };
