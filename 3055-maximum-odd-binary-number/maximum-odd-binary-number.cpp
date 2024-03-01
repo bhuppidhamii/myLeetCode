@@ -1,16 +1,14 @@
 class Solution {
 public:
     string maximumOddBinaryNumber(string s) {
-        sort(s.rbegin(), s.rend());
-        cout << s << endl;
-        int n = s.size();
-        for (int i = n - 1; i >= 0; i--) {
-            if (s[i] == '1') {
-                swap(s[i], s[s.size() - 1]);
-                break;
-            }
+        int cnt1 = 0, cnt0 = 0;
+        for (auto a : s) {
+            if (a == '1')
+                cnt1++;
+            else
+                cnt0++;
         }
-        cout << s;
-        return s;
+        string ans = string(cnt1 - 1, '1') + string(cnt0, '0') + '1';
+        return ans;
     }
 };
