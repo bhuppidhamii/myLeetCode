@@ -1,19 +1,32 @@
 class Solution {
 public:
-    int subsetXORSum(vector<int>& nums) {
-        int n = nums.size();
-        int sum = 0;
-        // Loop through all possible subsets
-        for (int mask = 0; mask < (1 << n); mask++) {
-            int subsetXOR = 0;
-            // For each element in nums, if its corresponding bit in mask is set, include it in the subset
-            for (int i = 0; i < n; i++) {
-                if (mask & (1 << i)) {
-                    subsetXOR ^= nums[i];
-                }
-            }
-            sum += subsetXOR;
+    void solve(vector<int>& nums, int i, vector<int> temp, vector<vector<int>>& allSubsets) {
+        if (i >= nums.size()) {
+            allSubsets.push_back(temp);
+            return;
         }
-        return sum;
+
+        temp.push_back(nums[i]); //take
+        solve(nums, i + 1, temp, allSubsets);
+
+        temp.pop_back(); //not-take
+        solve(nums, i + 1, temp, allSubsets);
+    }
+    int subsetXORSum(vector<int>& nums) {
+        // make all subsets
+        vector<vector<int>> allSubsets;
+        vector<int> temp;
+        solve(nums, 0, temp, allSubsets);
+
+        int res=0;
+        // sum of xor of all subsets
+        for(vector<int>&sub:allSubsets){
+          int sum=0;
+          for(auto num:sub){
+            sum^=num;
+          }
+          res+=sum;
+        }
+        return res;
     }
 };
