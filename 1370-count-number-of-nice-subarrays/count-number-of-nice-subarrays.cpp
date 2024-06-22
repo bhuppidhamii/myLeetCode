@@ -1,25 +1,17 @@
 class Solution {
 public:
-    bool isOdd(int n) { return n % 2; }
     int numberOfSubarrays(vector<int>& nums, int k) {
-        int i = 0, j = 0, n = nums.size();
-        int prevCount = 0;
+        map<int, int> mp;
+        mp[0] = 1;
         int oddCount = 0, res = 0;
-        while (j < n) {
-            if (isOdd(nums[j])) {
-                prevCount = 0;
-                oddCount++;
+        for (auto i : nums) {
+            oddCount += i % 2;
+
+            if (mp.count(oddCount - k)) {
+                res += mp[oddCount - k];
             }
 
-            while (oddCount == k) {
-                prevCount++;
-                if (i < n && isOdd(nums[i])) {
-                    oddCount--;
-                }
-                i++;
-            }
-            res += prevCount;
-            j++;
+            mp[oddCount]++;
         }
         return res;
     }
