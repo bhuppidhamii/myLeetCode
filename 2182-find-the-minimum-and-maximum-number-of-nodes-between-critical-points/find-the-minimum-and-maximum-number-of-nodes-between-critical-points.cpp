@@ -1,51 +1,38 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
+
 class Solution {
 public:
     vector<int> nodesBetweenCriticalPoints(ListNode* head) {
-        if(head==NULL||head->next==NULL || head->next->next==NULL){
-            return {-1,-1};
+        vector<int>arr;
+        ListNode *temp=head;
+        while(temp!=NULL){
+          arr.push_back(temp->val);
+          temp=temp->next;
         }
-        int pos=2;
-        ListNode *curr=head->next;
-        ListNode *prev=head;
-        ListNode *forw=curr->next;
-
-        vector<int>criticalPoints;
-        while(curr!=nullptr && forw!=nullptr){
-            if(curr->val > prev->val && curr->val > forw->val){
-                // check maxima
-                criticalPoints.push_back(pos);
-            }else if(curr->val < prev->val && curr->val < forw->val){
-                // check minima
-                criticalPoints.push_back(pos);
-            }
-            curr=curr->next;
-            prev=prev->next;
-            forw=forw->next;
-            pos++;
-
+        if(arr.size()<3){
+          return {-1,-1};
         }
-        int n=criticalPoints.size();
+        vector<int>cpoints;
+        for(int i=1;i<arr.size()-1;i++){
+          if(arr[i]>arr[i+1]&&arr[i]>arr[i-1]){
+            cpoints.push_back(i);
+          }else if(arr[i]<arr[i+1]&&arr[i]<arr[i-1]){
+            cpoints.push_back(i);
+          }
+        }
+        sort(cpoints.begin(), cpoints.end());
+        int n=cpoints.size();
         if(n<2){
-            return {-1,-1};
+          return {-1,-1};
         }
-        sort(criticalPoints.begin(), criticalPoints.end());
-        int mini=INT_MAX;
-        int maxi=abs(criticalPoints[0]-criticalPoints[n-1]);
+        int maxDist=INT_MIN;
+        int minDist=INT_MAX;
+        maxDist=cpoints[n-1]-cpoints[0];
         for(int i=1;i<n;i++){
-            int diff=abs(criticalPoints[i]-criticalPoints[i-1]);
-            mini=min(diff, mini);
+          int diff=cpoints[i]-cpoints[i-1];
+          if(diff<minDist){
+            minDist=diff;
+          }
         }
-        
-        return {mini,maxi};
+        return {minDist,maxDist};
     }
 };
