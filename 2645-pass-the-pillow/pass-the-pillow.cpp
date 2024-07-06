@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int passThePillow(int n, int time) {
+      // simulation - do what is asked
+      int idx=1,dir=1;
+      while(time>0){
+        if(idx+dir>=1 && idx+dir<=n){
+          idx+=dir;
+          time--;
+        }else{
+          dir=dir*-1;
+        }
+      }
+      return idx;
+    }
+};
