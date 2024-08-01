@@ -1,36 +1,35 @@
 class Solution {
 public:
     void setZeroes(vector<vector<int>>& matrix) {
-        //  bruteforce
-        int m = matrix.size(), n = matrix[0].size();
+        int m=matrix.size();
+        int n=matrix[0].size();
 
-        vector<vector<int>> copy(m, vector<int>(n, 0));
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                copy[i][j] = matrix[i][j];
-            }
-        }
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == 0) {
-                    // row----0
-                    int r = i;
-                    for (int k = 0; k < n; k++) {
-                        copy[r][k] = 0;
-                    }
-                    // col---0
-                    int c = j;
-                    for (int l = 0; l < m; l++) {
-                        copy[l][c] = 0;
-                    }
+        for(int i=0;i<m;i++){
+          for(int j=0;j<n;j++){
+            if(matrix[i][j]==0){
+              //  row-->0
+              for(int row=0;row<n;row++){
+                if(matrix[i][row]!=0){
+                  matrix[i][row]=-99;
                 }
+              }
+
+              // col-->0
+              for(int col=0;col<m;col++){
+                if(matrix[col][j]!=0){
+                  matrix[col][j]=-99;
+                }
+              }
             }
+          }
         }
 
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                matrix[i][j] = copy[i][j];
+        for(int i=0;i<m;i++){
+          for(int j=0;j<n;j++){
+            if(matrix[i][j]==-99){
+              matrix[i][j]=0;
             }
+          }
         }
     }
 };
