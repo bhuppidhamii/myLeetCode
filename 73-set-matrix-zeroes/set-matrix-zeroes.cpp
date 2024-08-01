@@ -1,28 +1,36 @@
 class Solution {
 public:
-    void setZeroes(vector<vector<int>>& MAT) {
-        int n = MAT.size();
-        int m = MAT[0].size();
+    void setZeroes(vector<vector<int>>& matrix) {
+        //  bruteforce
+        int m = matrix.size(), n = matrix[0].size();
 
-    vector<bool> row_marked(n, false);
-    vector<bool> col_marked(m, false);
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            if (MAT[i][j] == 0) {
-                row_marked[i] = true;
-                col_marked[j] = true;
+        vector<vector<int>> copy(m, vector<int>(n, 0));
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                copy[i][j] = matrix[i][j];
             }
         }
-    }
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            if (row_marked[i] || col_marked[j]) {
-                MAT[i][j] = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    // row----0
+                    int r = i;
+                    for (int k = 0; k < n; k++) {
+                        copy[r][k] = 0;
+                    }
+                    // col---0
+                    int c = j;
+                    for (int l = 0; l < m; l++) {
+                        copy[l][c] = 0;
+                    }
+                }
             }
         }
-    }
 
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = copy[i][j];
+            }
+        }
     }
 };
