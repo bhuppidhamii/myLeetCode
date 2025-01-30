@@ -1,23 +1,24 @@
 class Solution {
 public:
     bool isIsomorphic(string s, string t) {
-        map<char, int> m1;
-        for (auto ch : s) 
-            m1[ch]++;
+        map<char, char> mp;
+        map<char, char> mp1;
         
-        map<char, int> m2;
-        for (auto ch : t)
-            m2[ch]++;
-
-        if (m1.size() != m2.size())
-            return false;
-
-        map<char, char> m3;
-        for (int i = 0; i < s.length(); i++) {
-            if (m3.find(s[i]) == m3.end()) {
-                m3.insert({s[i], t[i]});
+        for (int i = 0; i < s.size(); i++) {
+            if(mp.find(s[i]) == mp.end() && mp1.find(t[i]) != mp1.end()){
+                return false;
+            }
+            if (mp.find(s[i]) == mp.end()) { // if not present
+                mp[s[i]] = t[i];
+                mp1[t[i]] = s[i];
             } else {
-                if (m3[s[i]] != t[i]) {
+                // if present
+
+                // map to correct
+                if (mp[s[i]] == t[i]) {
+                    continue;
+                } else {
+                    // map to others
                     return false;
                 }
             }
