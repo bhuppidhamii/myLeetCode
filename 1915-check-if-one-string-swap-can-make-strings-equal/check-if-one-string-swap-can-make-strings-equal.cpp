@@ -1,19 +1,32 @@
 class Solution {
 public:
     bool areAlmostEqual(string s1, string s2) {
-        if(s1==s2) return true;
-        vector<int>idx;
-        for(int i=0;i<s1.length();i++){
-            if(s1[i]!=s2[i]){
-                idx.push_back(i);
+        if (s1 == s2)
+            return true;
+
+        int n = s1.size();
+        string cpy1 = s1;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                swap(s1[i], s1[j]);
+                if (s1 == s2) {
+                    return true;
+                } else {
+                    s1 = cpy1;
+                }
             }
         }
-        if(idx.size()==2){
-            swap(s1[idx[0]], s1[idx[1]]);
-            if(s1==s2){
-                return true;
+
+        string cpy2 = s2;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                swap(s2[i], s2[j]);
+                if (s2 == s1) {
+                    return true;
+                } else {
+                    s2 = cpy2;
+                }
             }
-            return false;
         }
         return false;
     }
