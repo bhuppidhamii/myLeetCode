@@ -9,16 +9,16 @@ public:
         }
 
         map<long, long> mp;
-        long long badPairs = 0, totalNumsbeforJ = 0;
-        int j = 0;
-        while (j < n) {
-            totalNumsbeforJ = j;
+        mp[nums[0]]++;
+        for (int i = 1; i < n; i++) {
+            int totalPairs = i;
+            int goodPairs = mp[nums[i]];
 
-            badPairs += (totalNumsbeforJ - mp[nums[j]]);
+            int badPairs = totalPairs - goodPairs;
+            ans += badPairs;
 
-            mp[nums[j]]++;
-            j++;
+            mp[nums[i]]++;
         }
-        return badPairs;
+        return ans;
     }
 };
