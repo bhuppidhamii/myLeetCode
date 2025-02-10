@@ -1,22 +1,21 @@
 class Solution {
 public:
     string clearDigits(string s) {
-        int n = s.length();
-        for (int i = 0; i < n; i++) {
-            if (isdigit(s[i])) {
-                for (int j = i - 1; j >= 0; j--) {
-                    if (isalpha(s[j])) {
-                        s[j] = '$';
-                        break;
-                    }
-                }
+        stack<char> st;
+
+        for (auto& ch : s) {
+            if (ch >= '0' && ch <= '9') {
+                st.pop();
+            } else {
+                st.push(ch);
             }
         }
         string ans = "";
-        for (auto ch : s) {
-            if (isalpha(ch)) {
-                ans += ch;
-            }
+        while (st.size() > 0) {
+            char ch = st.top();
+            st.pop();
+
+            ans = ch + ans;
         }
         return ans;
     }
