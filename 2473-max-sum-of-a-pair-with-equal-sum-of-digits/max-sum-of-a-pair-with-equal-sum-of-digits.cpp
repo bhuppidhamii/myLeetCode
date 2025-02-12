@@ -11,18 +11,20 @@ public:
     int maximumSum(vector<int>& nums) {
 
         int result = -1;
-        unordered_map<int, int> mp;
+        // 10^9 = 1000000000
+        // max no would be - 999999999
+        // max sum would be - 81
+        vector<int> v(82, 0);
 
-        for (auto& n : nums) {
-            int digitSum = sumDigits(n);
+        for (int i = 0; i < nums.size(); i++) {
+            int digitSum = sumDigits(nums[i]);
 
-            if (mp.count(digitSum)) {
-                // already present
-                result = max(result, n + mp[digitSum]);
+            if (v[digitSum] != 0) { // already present;
+                result = max(result, nums[i] + v[digitSum]);
             }
 
-            // if not present - push the max;
-            mp[digitSum] = max(n, mp[digitSum]);
+            // if not present - store the max no
+            v[digitSum] = max(v[digitSum], nums[i]);
         }
         return result;
     }
