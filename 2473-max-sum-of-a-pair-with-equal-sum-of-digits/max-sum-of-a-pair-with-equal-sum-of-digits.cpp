@@ -9,22 +9,19 @@ public:
         return sum;
     }
     int maximumSum(vector<int>& nums) {
+        vector<pair<int, int>> v;
+
+        for (auto& n : nums) {
+            int digitSum = sumDigits(n);
+            v.push_back({digitSum, n});
+        }
+        sort(begin(v), end(v));
 
         int result = -1;
-        // 10^9 = 1000000000
-        // max no would be - 999999999
-        // max sum would be - 81
-        vector<int> v(82, 0);
-
-        for (int i = 0; i < nums.size(); i++) {
-            int digitSum = sumDigits(nums[i]);
-
-            if (v[digitSum] != 0) { // already present;
-                result = max(result, nums[i] + v[digitSum]);
+        for (int i = 1; i < v.size(); i++) {
+            if (v[i].first == v[i - 1].first) {
+                result = max(result, v[i].second + v[i - 1].second);
             }
-
-            // if not present - store the max no
-            v[digitSum] = max(v[digitSum], nums[i]);
         }
         return result;
     }
