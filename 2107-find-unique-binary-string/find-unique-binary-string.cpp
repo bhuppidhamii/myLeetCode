@@ -1,8 +1,14 @@
 class Solution {
 public:
-    void solve(string& curr, vector<string>& all, int n) {
+    string ans = "";
+    void solve(string& curr, map<string, int>& mp, int& n) {
+        if (!ans.empty())
+            return;
+
         if (curr.size() == n) {
-            all.push_back(curr);
+            if (mp.find(curr) == mp.end()) {
+                ans = curr;
+            }
             return;
         }
 
@@ -11,35 +17,22 @@ public:
             curr.push_back(ch);
 
             // explore
-            solve(curr, all, n);
+            solve(curr, mp, n);
 
             // undo
             curr.pop_back();
         }
+        return;
     }
     string findDifferentBinaryString(vector<string>& nums) {
-        // BF
-        // generate all the binary strings &
-        // then check each on of them if they are present or not
+        map<string, int> mp;
+        for (auto& ch : nums) {
+            mp[ch]++;
+        }
 
-        vector<string> all;
         string curr = "";
         int n = nums.size();
-
-        solve(curr, all, n);
-
-        for (auto& s1 : all) {
-            bool isPresent = false;
-            for (auto& s2 : nums) {
-                if (s1 == s2) {
-                    isPresent = true;
-                    break;
-                }
-            }
-            if (isPresent == false) {
-                return s1;
-            }
-        }
-        return "";
+        solve(curr, mp, n);
+        return ans;
     }
 };
