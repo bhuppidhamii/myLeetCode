@@ -5,30 +5,24 @@ public:
             return {};
 
         queue<TreeNode*> q;
-        vector<vector<int>> arr;
+        vector<int> ans;
 
         q.push(root);
         while (!q.empty()) {
             int n = q.size();
-            vector<int> v;
+            int lastVal = 0;
             while (n--) {
                 TreeNode* node = q.front();
-                v.push_back(node->val);
+                lastVal = node->val;
                 q.pop();
-                if (node->left) {
+                if (node->left)
                     q.push(node->left);
-                }
-                if (node->right) {
+                if (node->right)
                     q.push(node->right);
-                }
             }
-            arr.push_back(v);
+            ans.push_back(lastVal);
         }
-        vector<int> ans;
-        for (auto& a : arr) {
-            int n = a.size();
-            ans.push_back(a[n - 1]);
-        }
+
         return ans;
     }
 };
