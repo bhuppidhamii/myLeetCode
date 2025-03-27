@@ -1,21 +1,38 @@
 class Solution {
 public:
     int minimumIndex(vector<int>& nums) {
-        map<int, int> m1;
-        map<int, int> m2;
-        int L = nums.size();
+        // 1. find Majority element
+        int majority = -1, count = 0;
 
-        for (auto& n : nums) {
-            m2[n]++;
+        int l = nums.size();
+        for (int i = 0; i < l; i++) {
+            if (count == 0) {
+                majority = nums[i];
+                count = 1;
+            } else if (majority == nums[i]) {
+                count++;
+            } else {
+                count--;
+            }
         }
 
-        for (int i = 0; i < L; i++) {
-            int ele = nums[i];
-            int l1 = i + 1, l2 = L - i - 1;
-            m1[ele]++;
-            m2[ele]--;
+        int freq = 0;
+        for (auto& n : nums) {
+            if (n == majority) {
+                freq++;
+            }
+        }
 
-            if (m1[ele] > l1 / 2 && m2[ele] > l2 / 2) {
+        count = 0;
+        for (int i = 0; i < l; i++) {
+            if (nums[i] == majority) {
+                count++;
+            }
+
+            int rem = freq - count;
+            int n1 = i + 1, n2 = l - i - 1;
+
+            if (count > n1 / 2 && rem > n2 / 2) {
                 return i;
             }
         }
