@@ -1,33 +1,31 @@
 class Solution {
 public:
-    int n;
-    int dp[2501][2501];
-    int solve(int i, int p, vector<int>& nums) {
-        if (i >= n) {
+    int N;
+    int solve(int i, int p, vector<int>& nums, vector<vector<int>>& t) {
+        if (i >= N) {
             return 0;
         }
-
-        if (p != -1 && dp[i][p] != -1) {
-            return dp[i][p];
+        if (p != -1 && (t[i][p] != -1)) {
+            return t[i][p];
         }
 
+        // take
         int take = 0;
-        if (p == -1 || nums[i] > nums[p]) {
-            take = 1 + solve(i + 1, i, nums);
+        if (p == -1 || nums[p] < nums[i]) {
+            take = 1 + solve(i + 1, i, nums, t);
         }
 
-        int skip = solve(i + 1, p, nums);
-
+        int skip = solve(i + 1, p, nums, t);
         if (p != -1) {
-            dp[i][p] = max(take, skip);
+            t[i][p] = max(take, skip);
         }
         return max(take, skip);
     }
-
     int lengthOfLIS(vector<int>& nums) {
-        n = nums.size();
-        // initialize dp array with -1
-        memset(dp, -1, sizeof(dp));
-        return solve(0, -1, nums);
+        N = nums.size();
+        int p = -1;
+        vector<vector<int>> t(N + 1, vector<int>(N + 1, -1));
+
+        return solve(0, p, nums, t);
     }
 };
