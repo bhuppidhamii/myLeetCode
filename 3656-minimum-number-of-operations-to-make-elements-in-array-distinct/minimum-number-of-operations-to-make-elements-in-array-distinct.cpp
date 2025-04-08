@@ -1,13 +1,16 @@
 class Solution {
 public:
     int minimumOperations(vector<int>& nums) {
-        vector<int> freq(101, 0);
-        for (int i = nums.size() - 1; i >= 0; --i) {
-            if (++freq[nums[i]] > 1)
-                return ceil((double)(i + 1) / 3);
+        int N = nums.size();
+
+        unordered_set<int> st;
+        for (int i = N - 1; i >= 0; i--) {
+            if (st.count(nums[i])) { // duplicate found
+                int no_of_elements = i + 1;
+                return ceil(no_of_elements / 3.0);
+            }
+            st.insert(nums[i]);
         }
         return 0;
-         
     }
 };
- 
