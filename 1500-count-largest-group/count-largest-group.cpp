@@ -1,6 +1,7 @@
 class Solution {
 public:
     int countLargestGroup(int n) {
+        int largestSize = 0;
         map<int, vector<int>> mp;
         // sum, group
         for (int i = 1; i <= n; i++) {
@@ -10,10 +11,7 @@ public:
                 n /= 10;
             }
             mp[sum].push_back(i);
-        }
-        int largestSize = 0;
-        for (auto& i : mp) {
-            largestSize = max(largestSize, (int)i.second.size());
+            largestSize = max(largestSize, (int)mp[sum].size());
         }
 
         int count = 0;
