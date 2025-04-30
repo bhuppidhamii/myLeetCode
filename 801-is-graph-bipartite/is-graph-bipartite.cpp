@@ -1,20 +1,23 @@
 class Solution {
 public:
-    bool dfs(int u, unordered_map<int, vector<int>>& adj, vector<int>& color, int currColor) {
+    bool bfs(int u, unordered_map<int, vector<int>>& adj, vector<int>& color, int currColor) {
+        queue<int> q;
+        q.push(u);
         color[u] = currColor;
-        for (auto& v : adj[u]) {
-            if (color[v] ==
-                color[u]) { // check present node color equal to next node
-                return false;
-            }
 
-            if (color[v] == -1) { // if v node is not colored, color it.
-                int colorV = 1 - color[u];
-                if (dfs(v, adj, color, colorV) == false) {
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            for (auto& v : adj[u]) {
+                if (color[v] == color[u]) { // if adjacent is of same color
                     return false;
+                } else if (color[v] == -1) { // not colored or visited
+                    color[v] = 1 - color[u];
+                    q.push(v);
                 }
             }
         }
+
         return true;
     }
     bool isBipartite(vector<vector<int>>& graph) {
@@ -27,14 +30,13 @@ public:
             }
         }
 
-        // color vector ----
+        // color vector -------
         vector<int> color(n, -1);
-        // 1 --> Red
-        // 0 --> Green
+        // 1 --> Red, 0 --> Green
 
         for (int i = 0; i < n; i++) {
             if (color[i] == -1) {
-                if (dfs(i, adj, color, 1) == false) {
+                if (bfs(i, adj, color, 1) == false) {
                     return false;
                 }
             }
