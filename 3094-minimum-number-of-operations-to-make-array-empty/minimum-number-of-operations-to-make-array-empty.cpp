@@ -1,18 +1,37 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums) {
-        map<int,int>m;
-        for(auto i:nums){
-            m[i]++;
+        unordered_map<int, int> mp;
+        for (auto& n : nums) {
+            mp[n]++;
         }
-        int ans=0;
-        for(auto i:m){
-            if(i.second==1){
+        priority_queue<pair<int, int>> pq;
+        for (auto& i : mp) {
+            int freq = i.second;
+            int num = i.first;
+            pq.push({freq, num});
+        }
+        int count = 0;
+        while (!pq.empty()) {
+            auto p = pq.top();
+            int freq = p.first;
+            int num = p.second;
+            pq.pop();
+
+            if (freq >= 5) {
+                freq -= 3;
+            } else if (freq % 3 == 0) {
+                freq -= 3;
+            } else if (freq % 2 == 0) {
+                freq -= 2;
+            } else {
                 return -1;
             }
-            int freq=i.second;
-            ans+=ceil((double)freq/3);
+            count++;
+            if (freq > 0) {
+                pq.push({freq, num});
+            }
         }
-        return ans;
+        return count;
     }
 };
