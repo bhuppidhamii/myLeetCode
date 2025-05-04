@@ -10,7 +10,7 @@ public:
             if (count == 1)
                 return -1;
 
-            rounds += (count + 2) / 3;
+            rounds += ceil((double)count / 3);
         }
         return rounds;
     }
