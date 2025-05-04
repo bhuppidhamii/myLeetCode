@@ -1,17 +1,20 @@
 class Solution {
 public:
     int numEquivDominoPairs(vector<vector<int>>& dominoes) {
-        map<pair<int, int>, int> mp;
+        int N = dominoes.size();
         int count = 0;
-        for (auto& d : dominoes) {
-            vector<int> v = d;
-            sort(begin(v), end(v));
-            auto p = make_pair(v[0], v[1]);
+        for (int i = 0; i < N; i++) {
+            for (int j = i + 1; j < N; j++) {
+                int a = dominoes[i][0];
+                int b = dominoes[i][1];
 
-            if (mp.find(p) != mp.end()) {
-                count += mp[p];
+                int c = dominoes[j][0];
+                int d = dominoes[j][1];
+
+                if (a == c && b == d || a == d && b == c) {
+                    count++;
+                }
             }
-            mp[p]++;
         }
         return count;
     }
