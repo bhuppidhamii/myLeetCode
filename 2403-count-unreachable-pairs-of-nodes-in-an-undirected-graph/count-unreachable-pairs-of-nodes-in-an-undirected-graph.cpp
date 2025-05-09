@@ -1,17 +1,25 @@
 class Solution {
 public:
-    long long dfs(int u, map<int, vector<int>>& adj, vector<bool>&visited, long long &size){
+    void bfs(int u, map<int, vector<int>>& adj, vector<bool>& visited, long long& size) {
+        queue<int> q;
+        q.push(u);
         visited[u] = true;
+        size++;
 
-        for(auto &v : adj[u]){
-            if(!visited[v]){
-                size+=1;
-                dfs(v, adj, visited, size);
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+
+            for (auto& v : adj[u]) {
+                if (!visited[v]) {
+                    visited[v] = true;
+                    q.push(v);
+                    size++;
+                }
             }
         }
-        return size;
-    } 
-    long long countPairs( int n, vector<vector<int>>& edges) {
+    }
+    long long countPairs(int n, vector<vector<int>>& edges) {
         // visited array
         vector<bool> visited(n, false);
 
@@ -24,17 +32,17 @@ public:
             adj[v].push_back(u);
         }
 
-        long long count=0;
-        long long remainingNodes=n;
+        long long count = 0;
+        long long remainingNodes = n;
 
-        // dfs
+        // bfs
         for (int i = 0; i < n; i++) {
             if (visited[i] == false) {
-                long long size=1;
-                dfs(i, adj, visited, size);
-                
-                count+=(size*(remainingNodes-size));
-                remainingNodes-=size;
+                long long size = 0;
+                bfs(i, adj, visited, size);
+
+                count += (size * (remainingNodes - size));
+                remainingNodes -= size;
             }
         }
 
