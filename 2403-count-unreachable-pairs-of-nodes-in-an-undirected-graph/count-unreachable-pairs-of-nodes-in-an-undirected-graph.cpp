@@ -1,6 +1,6 @@
 class Solution {
 public:
-    long long dfs(int u, map<int, vector<int>>& adj, vector<bool>&visited, int &size){
+    long long dfs(int u, map<int, vector<int>>& adj, vector<bool>&visited, long long &size){
         visited[u] = true;
 
         for(auto &v : adj[u]){
@@ -25,15 +25,16 @@ public:
         }
 
         long long count=0;
-        int N=n;
+        long long remainingNodes=n;
+
         // dfs
         for (int i = 0; i < n; i++) {
             if (visited[i] == false) {
-                int sz=1;
-                long long noOfNodes = dfs(i, adj, visited, sz);
-                cout<<noOfNodes;
-                count+= (noOfNodes * (N-noOfNodes));
-                N-=noOfNodes;
+                long long size=1;
+                dfs(i, adj, visited, size);
+                
+                count+=(size*(remainingNodes-size));
+                remainingNodes-=size;
             }
         }
 
