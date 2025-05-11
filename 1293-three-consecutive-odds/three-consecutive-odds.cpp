@@ -1,12 +1,12 @@
 class Solution {
 public:
+    bool isOdd(int n){
+        return n%2 == 1 ? true : false;
+    }
     bool threeConsecutiveOdds(vector<int>& arr) {
-        int n = arr.size();
-        for (int i = 0; i < n - 2; i++) {
-            int a = arr[i];
-            int b = arr[i + 1];
-            int c = arr[i + 2];
-            if (a % 2 == 1 && b % 2 == 1 && c % 2 == 1) {
+        int N=arr.size();
+        for(int i=0; i<= N-3; i++){
+            if(isOdd(arr[i]) && isOdd(arr[i+1]) && isOdd(arr[i+2])){
                 return true;
             }
         }
