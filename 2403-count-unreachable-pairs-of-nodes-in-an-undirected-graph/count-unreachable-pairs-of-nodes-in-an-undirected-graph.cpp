@@ -1,51 +1,52 @@
 class Solution {
 public:
-    void bfs(int u, map<int, vector<int>>& adj, vector<bool>& visited, long long& size) {
-        queue<int> q;
-        q.push(u);
-        visited[u] = true;
-        size++;
+    vector<int> rank;
+    vector<int> parent;
+    int find(int x) {
+        if (x == parent[x]) {
+            return x;
+        }
+        return parent[x] = find(parent[x]);
+    }
+    void Union(int x, int y) {
+        int x_p = find(x);
+        int y_p = find(y);
+        if (x_p == y_p)
+            return;
 
-        while (!q.empty()) {
-            int u = q.front();
-            q.pop();
-
-            for (auto& v : adj[u]) {
-                if (!visited[v]) {
-                    visited[v] = true;
-                    q.push(v);
-                    size++;
-                }
-            }
+        if (rank[x_p] > rank[y_p]) {
+            parent[y_p] = x_p;
+        } else if (rank[y_p] > rank[x_p]) {
+            parent[x_p] = y_p;
+        } else {
+            parent[y_p] = x_p;
+            rank[x_p] += 1;
         }
     }
     long long countPairs(int n, vector<vector<int>>& edges) {
-        // visited array
-        vector<bool> visited(n, false);
-
-        // adjacency list
-        map<int, vector<int>> adj;
-        for (auto& e : edges) {
-            int u = e[0];
-            int v = e[1];
-            adj[u].push_back(v);
-            adj[v].push_back(u);
-        }
-
-        long long count = 0;
-        long long remainingNodes = n;
-
-        // bfs
+        rank.resize(n, 0);
+        parent.resize(n);
         for (int i = 0; i < n; i++) {
-            if (visited[i] == false) {
-                long long size = 0;
-                bfs(i, adj, visited, size);
-
-                count += (size * (remainingNodes - size));
-                remainingNodes -= size;
-            }
+            parent[i] = i;
         }
 
+        for (auto& e : edges) {
+            int x = e[0];
+            int y = e[1];
+            Union(x, y);
+        }
+        unordered_map<int, int> mp;
+        for (auto& p : parent) {
+            mp[find(p)]++;
+        }
+
+        long long remNodes = n;
+        long long count = 0;
+        for (auto& i : mp) {
+            long long size = i.second;
+            count += (size * (remNodes - size));
+            remNodes -= size;
+        }
         return count;
     }
 };
