@@ -4,25 +4,59 @@ public:
         int r = mat.size();
         int c = mat[0].size();
 
-        vector<int> row;
-        vector<int> col;
-
+        // check if 1st row impacted;
+        bool firstCol = false;
+        bool firstRow = false;
         for (int i = 0; i < r; i++) {
-            for (int j = 0; j < c; j++) {
+            if (mat[i][0] == 0) {
+                firstCol = true;
+            }
+        }
+
+        // check if 1st col impacted;
+        for (int j = 0; j < c; j++) {
+            if (mat[0][j] == 0) {
+                firstRow = true;
+            }
+        }
+
+        // set markers
+        for (int i = 1; i < r; i++) {
+            for (int j = 1; j < c; j++) {
                 if (mat[i][j] == 0) {
-                    row.push_back(i);
-                    col.push_back(j);
+                    // set 1st row element as 0
+                    mat[i][0] = 0;
+
+                    // set 1st col element as 0
+                    mat[0][j] = 0;
                 }
             }
         }
-        for (auto& rn : row) {
-            for (int i = 0; i < c; i++) {
-                mat[rn][i] = 0;
+
+        // skip 1st row & 1st col for corner case
+        for (int i = 1; i < r; i++) {
+            for (int j = 1; j < c; j++) {
+
+                // check row 1st element and col 1st element
+                int row_first = mat[i][0];
+                int col_first = mat[0][j];
+
+                // if any of them is 0, set the mat[i][j] = 0
+                if (row_first == 0 || col_first == 0) {
+                    mat[i][j] = 0;
+                }
             }
         }
-        for (auto& cn : col) {
-            for (int j = 0; j < r; j++) {
-                mat[j][cn] = 0;
+
+        if (firstRow) { // if 1st row is impacted
+            for (int j = 0; j < c; j++) {
+                mat[0][j] = 0;
+            }
+        }
+
+        if (firstCol) { // if 1st col is impacted
+            for (int i = 0; i < r; i++) {
+                mat[i][0] = 0;
             }
         }
     }
