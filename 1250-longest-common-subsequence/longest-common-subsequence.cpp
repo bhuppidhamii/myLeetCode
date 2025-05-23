@@ -1,24 +1,28 @@
 class Solution {
 public:
-    int t[1001][1001];
-    int solve(string& s1, string& s2, int i, int j) {
-        if (i >= s1.length() || j >= s2.length()) {
+    int N1, N2;
+    int solve(string& s1, string& s2, int i, int j, vector<vector<int>>& t) {
+        if (i >= N1 || j >= N2) {
             return 0;
         }
-        if (t[i][j] != -1) {
-            return t[i][j];
+
+        if (t[i][j] != -1) return t[i][j];
+
+        // if i & j are same ---------
+        if (s1[i] == s2[j]) {
+            return t[i][j] = 1 + solve(s1, s2, i + 1, j + 1, t);
         }
 
-        if (s1[i] == s2[j]) {
-            return t[i][j] = 1 + solve(s1, s2, i + 1, j + 1);
-        } else {
-            int include_i = solve(s1, s2, i + 1, j);
-            int include_j = solve(s1, s2, i, j + 1);
-            return t[i][j] = max(include_i, include_j);
-        }
+        // if i & j are not same ----------
+        int move_i = solve(s1, s2, i + 1, j, t);
+        int move_j = solve(s1, s2, i, j + 1, t);
+
+        return t[i][j] = max(move_i, move_j);
     }
-    int longestCommonSubsequence(string s1, string s2) {
-        memset(t, -1, sizeof(t));
-        return solve(s1, s2, 0, 0);
+    int longestCommonSubsequence(string text1, string text2) {
+        N1 = text1.size();
+        N2 = text2.size();
+        vector<vector<int>> t(1001, vector<int>(1001, -1));
+        return solve(text1, text2, 0, 0, t);
     }
 };
