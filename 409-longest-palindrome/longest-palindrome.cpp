@@ -1,18 +1,22 @@
 class Solution {
 public:
     int longestPalindrome(string s) {
-        unordered_set<char> st;
-        int result = 0;
-        for (auto& ch : s) {
-            if (st.find(ch) != st.end()) {
-                result += 2;
-                st.erase(ch);
-            } else {
-                st.insert(ch);
+        unordered_map<char, int>mp;
+        int oddCount = 0;
+        for(auto &ch : s){
+            mp[ch]++;
+            if(mp[ch]%2 == 1){
+                oddCount++;
+            }else{
+                oddCount--;
             }
         }
-        if (st.size() > 0) {
-            return result + 1;
+
+        int N = s.size();
+        int evenCount = N - oddCount;
+        int result = evenCount;
+        if(oddCount > 0){
+            result++;
         }
         return result;
     }
