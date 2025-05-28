@@ -1,24 +1,27 @@
 class Solution {
 public:
-    int n;
-    bool solve(int idx, vector<int>& nums, vector<int>& dp) {
-        if (idx == n - 1)
+    int N;
+    vector<int>dp;
+    bool solve(vector<int>& nums, int i, int jumps, vector<int>&dp) {
+        if (i == N - 1) {
             return true;
-        if (idx >= n)
-            return false;
-        if (dp[idx] != -1) {
-            return dp[idx];
         }
-        for (int i = 1; i <= nums[idx]; i++) {
-            if (solve(i + idx, nums, dp)) {
-                return dp[idx] = 1;
+        if(dp[i] != -1){
+            return dp[i];
+        }
+        if (jumps == 0 || i > N - 1)
+            return false;
+        for (int j = 1; j <= jumps; j++) {
+            if (i + j < N && solve(nums, i + j, nums[i + j], dp) == true) {
+                return dp[i] = true;
             }
         }
-        return dp[idx] = 0;
+        return dp[i] = false;
     }
     bool canJump(vector<int>& nums) {
-        n = nums.size();
-        vector<int> dp(n, -1);
-        return solve(0, nums, dp);
+        N = nums.size();
+        dp.resize(N+1, -1);
+        return solve(nums, 0, nums[0], dp);
+        //.         nums, index, jumps
     }
 };
