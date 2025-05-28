@@ -1,20 +1,25 @@
 class Solution {
 public:
-    long long int solve(int idx, vector<int>& nums, vector<int>& t) {
-        if (idx == nums.size() - 1)
-            return 0;
-        if (t[idx] != -1) {
-            return t[idx];
+    int N;
+    int solve(int i, vector<int>& nums, vector<int>& dp) {
+        if (i >= N - 1) return 0;
+        if (nums[i] == 0) return INT_MAX;
+        if (dp[i] != -1) return dp[i];
+
+        int minJumps = INT_MAX;
+        for (int j = 1; j <= nums[i] && i + j < N; j++) {
+            int next = solve(i + j, nums, dp);
+            if (next != INT_MAX) {
+                minJumps = min(minJumps, 1 + next);
+            }
         }
-        long long int minJumps = INT_MAX;
-        for (int i = 1; i <= nums[idx] && i + idx < nums.size(); i++) {
-            minJumps = min(minJumps, 1 + solve(i + idx, nums, t));
-            t[idx] = minJumps;
-        }
-        return t[idx] = minJumps;
+
+        return dp[i] = minJumps;
     }
+
     int jump(vector<int>& nums) {
-        vector<int> t(10001, -1);
-        return solve(0, nums, t);
+        N = nums.size();
+        vector<int> dp(N, -1);
+        return solve(0, nums, dp);
     }
 };
