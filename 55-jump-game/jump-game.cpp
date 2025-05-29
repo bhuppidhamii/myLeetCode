@@ -1,27 +1,22 @@
 class Solution {
 public:
-    int N;
-    vector<int>dp;
-    bool solve(vector<int>& nums, int i, int jumps, vector<int>&dp) {
-        if (i == N - 1) {
-            return true;
-        }
-        if(dp[i] != -1){
-            return dp[i];
-        }
-        if (jumps == 0 || i > N - 1)
-            return false;
-        for (int j = 1; j <= jumps; j++) {
-            if (i + j < N && solve(nums, i + j, nums[i + j], dp) == true) {
-                return dp[i] = true;
+    bool canJump(vector<int>& nums) {
+        int N = nums.size();
+        vector<int> t(N, false);
+
+        // t[i] = true, means i tak pahucha ja sakta h
+        // t[i] = false, means i tak nhi pahucha ja sakta h
+
+        t[0] = true; // we can always reach 1st index
+
+        for (int i = 1; i < N; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (t[j] == true && j + nums[j] >= i) {
+                    t[i] = true;
+                    break;
+                }
             }
         }
-        return dp[i] = false;
-    }
-    bool canJump(vector<int>& nums) {
-        N = nums.size();
-        dp.resize(N+1, -1);
-        return solve(nums, 0, nums[0], dp);
-        //.         nums, index, jumps
+        return t[N - 1];
     }
 };
