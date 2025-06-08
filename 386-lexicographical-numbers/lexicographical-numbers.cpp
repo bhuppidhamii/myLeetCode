@@ -1,15 +1,19 @@
 class Solution {
 public:
-    vector<int> lexicalOrder(int n) {
-        vector<string>vs;
-        for(int i=1; i<=n; i++){
-            vs.push_back(to_string(i));
+    vector<int> ans;
+    void solve(int startNum, int n) {
+        if (startNum > n) {
+            return;
         }
-
-        sort(begin(vs), end(vs));
-        vector<int>ans;
-        for(auto &s:vs){
-            ans.push_back(stoi(s));
+        ans.push_back(startNum);
+        for (int append = 0; append <= 9; append++) {
+            int newNum = (startNum * 10) + append;
+            solve(newNum, n);
+        }
+    }
+    vector<int> lexicalOrder(int n) {
+        for (int startNum = 1; startNum <= 9; startNum++) {
+            solve(startNum, n);
         }
         return ans;
     }
