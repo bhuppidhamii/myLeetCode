@@ -16,18 +16,15 @@ public:
             return;
         }
         path+=to_string(root->val);
-        path+="->";
+        
         if(root->left==NULL && root->right==NULL){
-            path.pop_back();
-            path.pop_back();
             ans.push_back(path);
             return;
         }
 
-        solve(root->left, path, ans);
-
-        solve(root->right, path, ans);
-        path.pop_back();
+        solve(root->left, path+"->", ans);
+        solve(root->right, path+"->", ans);
+        // path.pop_back();
     }
     vector<string> binaryTreePaths(TreeNode* root) {
         vector<string>ans;
