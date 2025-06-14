@@ -1,48 +1,20 @@
-/*
-class Node {
-public:
-    int data;
-    Node *left, *right;
-
-    Node(int val) {
-        data = val;
-        left = right = nullptr;
-    }
-};
-*/
 class Solution {
   public:
-    void solveL(Node *root, vector<int>&L){
-        if(root!=NULL){
-            solveL(root->left, L);
-            L.push_back(root->data);
-            solveL(root->right, L);
+    bool check(Node *l, Node* r){
+        // if BOTH are NULL
+        if(l==NULL && r==NULL) return true;
+        
+        // if 1 of them is NULL or BOTH are NULL
+        if(l==NULL || r==NULL) return false;
+        
+        if(l->data != r->data){
+            return false;
         }
-    }
-    void solveR(Node *root, vector<int>&R){
-        if(root!=NULL){
-            solveR(root->right, R);
-            R.push_back(root->data);
-            solveR(root->left, R);
-        }
+        
+        return check(l->left, r->right) && check(l->right, r->left);
     }
     bool isSymmetric(Node* root) {
-        // Code here
-        if(root == NULL){
-            return true;
-        }
-        
-        vector<int>L;
-        if(root->left){
-            solveL(root->left, L);
-        }
-        
-        
-        vector<int>R;
-        if(root->right){
-            solveR(root->right, R);
-        }
-        
-        return L == R;
+        // Jai Shree Ram
+        return check(root->left, root->right);
     }
 };
