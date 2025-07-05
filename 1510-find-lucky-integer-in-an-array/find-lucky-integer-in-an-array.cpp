@@ -1,16 +1,16 @@
 class Solution {
 public:
     int findLucky(vector<int>& arr) {
-        map<int,int>m;
-        for(auto i:arr){
-            m[i]++;
+        vector<int> v(501, 0);
+        for (auto& i : arr) {
+            v[i]++;
         }
-        int lucky = -1;
-        for(auto i:arr){
-            if(i == m[i]){
-                lucky=max(lucky,i);
+        int ans = -1;
+        for (int i = 1; i < 501; i++) {
+            if (i == v[i]) {
+                ans = i;
             }
         }
-        return lucky;
+        return ans;
     }
 };
