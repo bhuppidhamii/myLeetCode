@@ -1,19 +1,22 @@
 class Solution {
 public:
     int maximumUniqueSubarray(vector<int>& nums) {
-        map<int, int> mp;
+        vector<int>freq(100001, 0);
         int N = nums.size();
-        int i = 0;
+        int i = 0, mp_sz = 0;
         int score = 0, maxScore = INT_MIN;
         for (int j = 0; j < N; j++) {
-            mp[nums[j]]++;
+            if(freq[nums[j]] == 0){
+                mp_sz++;
+            }
+            freq[nums[j]]++;
 
-            while (i < N && (j - i + 1) > (int)mp.size()) {
-                mp[nums[i]]--;
-                score -= nums[i];
-                if (mp[nums[i]] == 0) {
-                    mp.erase(nums[i]);
+            while (i < N && (j - i + 1) > mp_sz) {
+                freq[nums[i]]--;
+                if(freq[nums[i]] == 0){
+                    mp_sz--;
                 }
+                score -= nums[i];
                 i++;
             }
             score += nums[j];
