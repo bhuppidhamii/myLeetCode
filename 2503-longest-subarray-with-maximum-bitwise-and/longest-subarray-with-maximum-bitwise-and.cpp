@@ -1,22 +1,24 @@
 class Solution {
 public:
     int longestSubarray(vector<int>& nums) {
-        int N = nums.size();
-
-        // find the max_element
-        int max_ele = *max_element(nums.begin(), nums.end());
-
-        // find longest subarray having max_value
-        int count = 0, max_len = -1;
-        for (auto& i : nums) {
-            if (i == max_ele) {
-                count++;
-            } else {
-                max_len = max(max_len, count);
-                count = 0;
+        int max_val = 0;
+        int max_size = 0;
+        int streak = 0;
+        for (int num : nums) {
+            if (num > max_val) {
+                max_val = num;
+                max_size = 0;
+                streak = 0;
             }
-            max_len = max(max_len, count);
+
+            if (num == max_val) {
+                streak++;
+            } else {
+                streak = 0;
+            }
+
+            max_size = max(max_size, streak);
         }
-        return max_len;
+        return max_size;
     }
 };
