@@ -1,22 +1,18 @@
 class Solution {
 public:
-    int nCr(int n, int r) {
-        long long res = 1;
-        for (int i = 0; i < r; i++) {
-            res = res * (n - i);
-            res = res / (i + 1);
-        }
-        return res;
-    }
     vector<vector<int>> generate(int n) {
         vector<vector<int>> ans;
-
-        for (int i = 0; i < n; i++) {
-            vector<int> arr;
-            for (int j = 0; j <= i; j++) {
-                arr.push_back(nCr(i, j));
+        for (int row = 0; row < n; row++) {
+            vector<int> temp;
+            for (int i = 0; i <= row; i++) {
+                if (i == 0 || i == row) {
+                    temp.push_back(1);
+                } else {
+                    int num = ans[row - 1][i] + ans[row - 1][i - 1];
+                    temp.push_back(num);
+                }
             }
-            ans.push_back(arr);
+            ans.push_back(temp);
         }
         return ans;
     }
