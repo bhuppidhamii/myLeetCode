@@ -1,12 +1,12 @@
 class Solution {
 public:
     int subarrayBitwiseORs(vector<int>& arr) {
-        set<int> prev;
-        set<int> result;
+        unordered_set<int> prev;
+        unordered_set<int> result;
 
         for (auto& a : arr) {
 
-            set<int> curr;
+            unordered_set<int> curr;
             for (auto& p : prev) {
                 curr.insert(a | p);
                 result.insert(a | p);
