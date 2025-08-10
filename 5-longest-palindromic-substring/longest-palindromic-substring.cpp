@@ -1,28 +1,38 @@
 class Solution {
 public:
-    bool solve(int i, int j, string &s) {
+    bool checkPalindrome(string &s, int i, int j, vector<vector<int>>&dp) {
         if (i >= j)
             return true;
-        if (s[i] == s[j]) {
-            return solve(i + 1, j - 1, s);
+        
+        // check in dp first, if it's already calculated
+        if(dp[i][j] != -1){
+            return dp[i][j];
         }
-        return false;
+
+        // memoise in dp -> store the results
+        if (s[i] == s[j]) {
+            return dp[i][j] = checkPalindrome(s, i + 1, j - 1, dp);
+        } else {
+            return dp[i][j] = false;
+        }
     }
     string longestPalindrome(string s) {
-        int n = s.size();
-        int i = 0, j = n - 1;
-
-        int sp = -1, maxLen = -1;
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
-                if (solve(i, j, s) == true) { // if substr is palindrome
-                    if (j - i + 1 > maxLen) {
-                        maxLen = j - i + 1;
-                        sp = i;
+        int N = s.size();
+        // cout<<checkPalindrome("aac", 0, 2);
+        vector<vector<int>>dp(N+1, vector<int>(N+1, -1));
+        string ans = "";
+        int max_len = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (checkPalindrome(s, i, j, dp) == true) {
+                    int len = j-i+1;
+                    if(len > max_len){
+                        max_len = len;
+                        ans = s.substr(i, j - i + 1);
                     }
                 }
             }
         }
-        return s.substr(sp, maxLen);
+        return ans;
     }
 };
