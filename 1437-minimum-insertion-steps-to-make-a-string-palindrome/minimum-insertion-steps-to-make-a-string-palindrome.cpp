@@ -1,32 +1,37 @@
 class Solution {
 public:
-    int solve(int i, int j, string& s, vector<vector<int>>& dp) {
-        // base case
-        if (i > j)
+    int LPS(int i, int j, string& s, vector<vector<int>>& dp) {
+        if (i > j) // if i has crossed j
             return 0;
+
+        if (i == j) // if i&j are in the same pos
+            return 1;
 
         // check if already exists
         if (dp[i][j] != -1)
             return dp[i][j];
 
-        // if i & j are equal------->
+        int take = 0;
         if (s[i] == s[j]) {
-            return solve(i + 1, j - 1, s, dp);
+            take = 2 + LPS(i + 1, j - 1, s, dp);
         }
 
-        // if i & j are not equal------>
-        // 1. move i, add + 1;
-        int move_i = 1 + solve(i + 1, j, s, dp);
+        // move i
+        int move_i = LPS(i + 1, j, s, dp);
 
-        // 2. move j, add + 1;
-        int move_j = 1 + solve(i, j - 1, s, dp);
+        // move j
+        int move_j = LPS(i, j - 1, s, dp);
 
         // memoize
-        return dp[i][j] = min(move_i, move_j);
+        return dp[i][j] = max({take, move_i, move_j});
     }
     int minInsertions(string s) {
+        // find x = longest palindromic sub-sequence
+        // return n-x;
         int N = s.size();
         vector<vector<int>> dp(N + 1, vector<int>(N + 1, -1));
-        return solve(0, N - 1, s, dp);
+        int x = LPS(0, N - 1, s, dp);
+
+        return N - x;
     }
 };
