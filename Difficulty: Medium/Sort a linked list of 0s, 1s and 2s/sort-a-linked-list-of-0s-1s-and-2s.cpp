@@ -13,38 +13,47 @@
 class Solution {
   public:
     Node* segregate(Node* head) {
-        // Jai Shri Ram
-        int zeros = 0;
-        int ones = 0;
-        int twos = 0;
+        if(head==NULL) return head;
         
-        Node *temp = head;
-        while(temp){
-            if(temp->data == 0){
-                zeros++;
-            }else if(temp->data == 1){
-                ones++;
-            }else{
-                twos++;
+        Node *zero = new Node(0);
+        Node *zeroHead = zero;
+
+        Node *one = new Node(0);
+        Node *oneHead = one;
+
+        Node *two = new Node(0);
+        Node *twoHead = two;
+
+        Node* temp = head;  // for traversal
+        while (temp!=NULL) {
+            if (temp->data == 0) {
+                zero->next = temp;
+                zero = zero->next;
+            } else if (temp->data == 1) {
+                one->next = temp;
+                one = one->next;
+            } else { // 2
+                two->next = temp;
+                two = two->next;
             }
-            temp=temp->next;
+            temp = temp->next;
         }
         
-        temp = head;
-        while(zeros--){
-            temp->data = 0;
-            temp=temp->next;
+        // Join lists in order 0 -> 1 -> 2
+        zero->next = (oneHead->next) ? oneHead->next : twoHead->next;
+        one->next = twoHead->next;
+        two->next = NULL;   // IMPORTANT: break old links
+        
+        Node* newHead = NULL;
+
+        if (zeroHead->next) {
+            newHead = zeroHead->next;   // start of 0-list
+        } else if (oneHead->next) {
+            newHead = oneHead->next;    // start of 1-list
+        } else {
+            newHead = twoHead->next;    // start of 2-list
         }
         
-        while(ones--){
-            temp->data = 1;
-            temp=temp->next;
-        }
-        
-        while(twos--){
-            temp->data = 2;
-            temp=temp->next;
-        }
-        return head;
+        return newHead;
     }
 };
