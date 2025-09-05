@@ -1,21 +1,21 @@
 class Solution {
 public:
-    void sortColors(vector<int>& nums) {
-        // optimal approach
-        int N = nums.size();
-        int i = 0;     // for handling 0
-        int j = 0;     // for handling 1
-        int k = N - 1; // for handling 2
+    void sortColors(vector<int>& arr) {
+        int n = arr.size();
+        int i = 0;     // --> 0
+        int j = 0;     // --> 1
+        int k = n - 1; // --> 2
 
+        // perform comparison with 1 idx only - j
         while (j <= k) {
-            if(nums[j] == 1){
-                j++;
-            }else if(nums[j] == 2){
-                swap(nums[j], nums[k]);
+            if (arr[j] == 2) {
+                swap(arr[k], arr[j]);
                 k--;
-            }else if(nums[j] == 0){
-                swap(nums[j], nums[i]);
+            } else if (arr[j] == 0) {
+                swap(arr[i], arr[j]);
+                j++;
                 i++;
+            } else {
                 j++;
             }
         }
