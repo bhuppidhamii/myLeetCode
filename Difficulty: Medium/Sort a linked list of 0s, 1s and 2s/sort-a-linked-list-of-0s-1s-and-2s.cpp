@@ -12,46 +12,39 @@
 */
 class Solution {
   public:
-    vector<int> DNF(vector<int>&arr){
-        int N = arr.size();
-        int i=0, j=0, k=N-1;
-        
-        while(j<=k){
-            if(arr[j]==2){
-                swap(arr[j], arr[k]);
-                k--;
-            }else if(arr[j]==0){
-                swap(arr[j], arr[i]);
-                i++,j++;
-            }else{ // arr[j] == 1
-                j++;
-            }
-        }
-        return arr;
-    }
     Node* segregate(Node* head) {
         // Jai Shri Ram
+        int zeros = 0;
+        int ones = 0;
+        int twos = 0;
         
-        // BF
-        vector<int>v;
         Node *temp = head;
         while(temp){
-            v.push_back(temp->data);
+            if(temp->data == 0){
+                zeros++;
+            }else if(temp->data == 1){
+                ones++;
+            }else{
+                twos++;
+            }
             temp=temp->next;
         }
         
-        // sort using DNF algorithm
-        vector<int>arr = DNF(v);
-        
-        // dummy -> technique;
-        Node *dummy = new Node(0);
-        temp = dummy;
-        
-        for(auto &i:arr){
-            Node *newNode = new Node(i);
-            temp->next = newNode;
+        temp = head;
+        while(zeros--){
+            temp->data = 0;
             temp=temp->next;
         }
-        return dummy->next;
+        
+        while(ones--){
+            temp->data = 1;
+            temp=temp->next;
+        }
+        
+        while(twos--){
+            temp->data = 2;
+            temp=temp->next;
+        }
+        return head;
     }
 };
