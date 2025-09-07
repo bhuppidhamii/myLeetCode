@@ -13,35 +13,51 @@ class Node {
 
 class Solution {
   public:
-    Node* mergeKLists(vector<Node*>& arr) {
-        // Jai Shri Ram
+    Node* merge2list(Node *l1, Node *l2){
+        Node *t1 = l1;
+        Node *t2 = l2;
         
-        // BF------->
-        
-        // store all values in an array
-        vector<int>v;
-        for(auto &head:arr){
-            Node *temp = head;
-            while(temp){
-                v.push_back(temp->data);
-                temp=temp->next;
-            }
-        }
-        
-        // sort the array
-        sort(begin(v), end(v));
-        
-        // dummy technique
         Node *dummy = new Node(0);
-        Node *temp = dummy;
-        
-        // simple traversal & node creation
-        for(auto &i:v){
-            Node *newNode = new Node(i);
-            temp->next = newNode;
-            temp = temp->next;
+        Node *ans = dummy;
+        while(t1 || t2){
+            
+            while(t1 && t2){ // if both are ok 
+                
+                if(t1->data <= t2->data){
+                    ans->next = t1;
+                    t1 = t1 ->next;
+                }else if(t2->data < t1->data){
+                    ans->next = t2;
+                    t2 = t2->next;
+                }
+                
+                ans = ans->next;
+            }
+            
+            if(t1){
+                ans->next = t1;
+                t1 = t1->next;
+            }
+            
+            if(t2){
+                ans->next = t2;
+                t2 = t2->next;
+            }
+            
+            ans = ans->next;
         }
         
         return dummy->next;
+    }
+    Node* mergeKLists(vector<Node*>& arr) {
+        // Jai Shri Ram
+        
+        Node * l1 = NULL;
+        for(auto &head:arr){
+            Node *l2 = head;
+            
+            l1 = merge2list(l1, l2);
+        }
+        return l1;
     }
 };
