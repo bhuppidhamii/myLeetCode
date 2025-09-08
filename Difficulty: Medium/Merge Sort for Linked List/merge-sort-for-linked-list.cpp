@@ -1,75 +1,53 @@
 class Solution {
   public:
-    void merge(vector<int>&arr, int l, int mid, int r){
-        int n1 = mid-l+1;
-        int n2 = r-mid+1-1;
-        vector<int>L(n1, 0);
-        vector<int>R(n2, 0);
+    Node* merge(Node *l, Node *r){
+        Node *dummy = new Node(0);
+        Node *temp = dummy;
         
-        int k = l;
-        // fill L & R arrays
-        for(int i=0; i<n1; i++){
-            L[i] = arr[k];
-            k++;
-        }
-        for(int i=0; i<n2; i++){
-            R[i] = arr[k];
-            k++;
-        }
-        
-        int i = 0;
-        int j = 0;
-        k = l;
-        // merge into original array
-        while(i<n1 && j<n2){
-            if(L[i] <= R[j]){
-                arr[k] = L[i];
-                i++, k++;
+        while(l && r){
+            if(l->data <= r->data){
+                temp->next = l;
+                l = l->next;
             }else{
-                arr[k] = R[j];
-                j++, k++;
+                temp->next = r;
+                r = r->next;
             }
+            temp = temp->next;
         }
         
-        while(i < n1){
-            arr[k] = L[i];
-            i++, k++;
-        }
+        if(l) temp->next = l;
         
-        while(j < n2){
-            arr[k] = R[j];
-            j++, k++;
-        }
-    }
-    void mergeSort(vector<int>&arr, int l, int r){
-        if(l >= r) return;
+        if(r) temp->next = r;
         
-        int mid = l + (r - l)/2;
-        mergeSort(arr, l, mid);
-        mergeSort(arr, mid+1, r);
-        merge(arr, l, mid, r);
+        return dummy->next;
     }
     Node* mergeSort(Node* head) {
         // Jai Shri Ram
         
-        vector<int>arr;
-        Node *temp = head;
-        while(temp){
-            arr.push_back(temp->data);
-            temp=temp->next;
-        }
-        // merge-sort
-        mergeSort(arr, 0, arr.size()-1);
+        if(head->next == NULL) return head;
         
-        // dummy technique
-        Node *dummy = new Node(0);
-        temp = dummy;
-        for(auto &i:arr){
-            Node *newNode = new Node(i);
-            temp->next= newNode;
-            temp=temp->next;
+        // find mid
+        Node* slow = head;
+        Node* fast = head;
+        Node* prev = nullptr;
+        
+        while(fast && fast->next) {
+            prev = slow;
+            slow = slow->next;
+            fast = fast->next->next;
         }
         
-        return dummy->next;
+        // Cut into two halves
+        prev->next = NULL;
+        
+        Node* l = head;
+        Node* r = slow;
+        
+        l = mergeSort(l);
+        r = mergeSort(r);
+        
+        // merge
+        Node* ans = merge(l, r);
+        return ans;
     }
 };
