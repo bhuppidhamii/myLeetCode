@@ -1,22 +1,19 @@
 class Solution {
 public:
-    int N;
-    vector<vector<int>> dp;
+    int n;
+    int solve(int i, int j, vector<vector<int>>& triangle, vector<vector<int>>&dp){
+        if(i == n-1) return triangle[i][j];
+        
+        if(dp[i][j] != INT_MAX) return dp[i][j];
 
-    int solve(vector<vector<int>>& triangle, int i, int j) {
-        if (i == N - 1) return triangle[i][j];  // Base case: last row
+        int down = solve(i+1, j, triangle, dp);
+        int diagonal = solve(i+1, j+1, triangle, dp);
 
-        if (dp[i][j] != -1) return dp[i][j];
-
-        int down = solve(triangle, i + 1, j);
-        int diagonal = solve(triangle, i + 1, j + 1);
-
-        return dp[i][j] = triangle[i][j] + min(down, diagonal);
+        return dp[i][j] = triangle[i][j] +  min(down, diagonal);
     }
-
     int minimumTotal(vector<vector<int>>& triangle) {
-        N = triangle.size();
-        dp = vector<vector<int>>(N, vector<int>(N, -1));
-        return solve(triangle, 0, 0);  // Start from top of the triangle
+        n = triangle.size();
+        vector<vector<int>>dp(201, vector<int>(201, INT_MAX));
+        return solve(0, 0, triangle, dp);
     }
 };
