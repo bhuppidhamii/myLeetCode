@@ -1,13 +1,5 @@
 class Solution {
 public:
-    double findLength(vector<int>&a, vector<int>&b){
-        int x1 = a[0], y1 = a[1];
-        int x2 = b[0], y2 = b[1];
-
-        double len = hypot(x2-x1, y2-y1);
-        // hypot = sqrt(pow(x2-x1, 2) + pow(y2-y1,2));
-        return len;
-    }
     double largestTriangleArea(vector<vector<int>>& points) {
         int n = points.size();
         double max_area = 0;
@@ -18,14 +10,12 @@ public:
                     vector<int> b = points[j];
                     vector<int> c = points[k];
 
-                    double ab = findLength(a,b);
-                    double bc = findLength(b,c);
-                    double ca = findLength(c,a);
+                    int x1 = a[0], y1 = a[1];
+                    int x2 = b[0], y2 = b[1];
+                    int x3 = c[0], y3 = c[1];
 
-                    // area with 3 side
-                    double s = (ab+bc+ca)/2;
-
-                    double A = double(sqrt(s*(s-ab)*(s-bc)*(s-ca)));
+                    // shoelace formula
+                    double A = 0.5 * abs(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2));
                     if(A > max_area){
                         max_area = A;
                     }
