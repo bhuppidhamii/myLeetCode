@@ -4,7 +4,8 @@ public:
         int x1 = a[0], y1 = a[1];
         int x2 = b[0], y2 = b[1];
 
-        double len = double(sqrt(pow((x2-x1), 2) + pow((y2-y1), 2)));
+        double len = hypot(x2-x1, y2-y1);
+        // hypot = sqrt(pow(x2-x1, 2) + pow(y2-y1,2));
         return len;
     }
     double largestTriangleArea(vector<vector<int>>& points) {
