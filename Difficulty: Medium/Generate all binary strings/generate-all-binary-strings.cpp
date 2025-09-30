@@ -1,24 +1,23 @@
 class Solution {
   public:
-    void solve(string temp, vector<string>&all, int n){
-        if(temp.size() >= n){
-            all.push_back(temp);
+    void solve(int n, vector<string>&ans, string temp){
+        if(temp.size() == n){
+            ans.push_back(temp);
             return;
         }
         
-        // take 0
-        solve(temp+'0', all, n);
-        
-        // take 1, only if temp->back is not 1
-        if(temp.empty() || temp.size() > 0 && temp.back() != '1'){
-            solve(temp+'1', all, n);
+        for(char ch='0'; ch<='1'; ch++){
+            temp+=ch;
+            solve(n, ans, temp);
+            temp.pop_back();
         }
     }
-    vector<string> generateBinaryStrings(int n) {
+    vector<string> binstr(int n) {
         // Jai Shri Ram
+    
+        vector<string>ans;
+        solve(n, ans, "");
         
-        vector<string>all;
-        solve("", all, n);
-        return all;
+        return ans;
     }
 };
