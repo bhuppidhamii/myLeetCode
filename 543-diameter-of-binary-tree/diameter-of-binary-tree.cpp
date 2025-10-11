@@ -1,21 +1,18 @@
 class Solution {
 public:
-    int maxi = INT_MIN;
-    int solve(TreeNode* root, int& diameter) {
-        if (root == NULL)
-            return 0;
+    int maxi;
+    int solve(TreeNode *root){
+        if(root == nullptr) return 0;
 
-        int lh = 0, rh = 0;
-        lh = solve(root->left, diameter);
-        rh = solve(root->right, diameter);
+        int left = solve(root->left);
+        int right = solve(root->right);
 
-        diameter = max(diameter, lh + rh);
-
-        return 1 + max(lh, rh);
+        maxi = max(maxi, left+right);
+        
+        return 1 + max(left, right);
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        int diameter = 0;
-        solve(root, diameter);
-        return diameter;
+        solve(root);
+        return maxi;
     }
 };
