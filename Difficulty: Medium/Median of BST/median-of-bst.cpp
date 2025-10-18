@@ -1,27 +1,35 @@
 class Solution {
   public:
-    void inOrder(Node* root, vector<int>&v){
-        if(root!=NULL){
-            inOrder(root->left, v);
-            v.push_back(root->data);
-            inOrder(root->right, v);
-        }
+    int N = 0, ans = 0;
+    void inOrder(Node *root){
+        if(root == NULL) return;
+            inOrder(root->left);
+            N++;
+            inOrder(root->right);
+        
+    }
+    void solve(Node* root, int &curr, int idx){
+        if(root == NULL) return;
+            solve(root->left, curr, idx);
+            curr++;
+            if(curr == idx){
+                ans = root->data;
+                return;
+            }
+            solve(root->right, curr, idx);
+        
     }
     int findMedian(Node* root) {
         // Jai Shri Ram
-        vector<int>v;
-        inOrder(root, v);
-        
-        for(auto &i:v){
-            // cout<<i<<" ";
+        inOrder(root);
+        int idx = 0;
+        if(N%2 == 0){ // even
+            idx = N/2;
+        }else{
+            idx = (N+1)/2; // odd
         }
-        
-        int N = v.size();
-        if(N%2 == 0){
-            int idx = (N+1)/2;
-            idx--;
-            return v[idx];
-        }
-        return v[(N/2)];
+        int curr = 0;
+        solve(root, curr, idx);
+        return ans;
     }
 };
