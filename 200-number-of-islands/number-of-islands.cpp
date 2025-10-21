@@ -1,28 +1,35 @@
 class Solution {
 public:
     int m, n;
-    void dfs(int i, int j, vector<vector<char>>& grid) {
-        if (i < 0 || j < 0 || i >= m || j >= n || grid[i][j] == '0' ||
-            grid[i][j] == '$') {
-            return;
+    vector<vector<int>> dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    void dfs(int i, int j, vector<vector<char>>& grid, vector<vector<bool>>& visited) {
+        if (i < 0 || i >= m || j < 0 || j >= n || visited[i][j] == true || grid[i][j] == '0') return;
+
+        // mark as visited
+        visited[i][j] = true;
+
+        for (auto& d : dirs) {
+            int i_ = i + d[0];
+            int j_ = j + d[1];
+            dfs(i_, j_, grid, visited);
         }
-        grid[i][j] = '$'; // mark visited
-        dfs(i + 1, j, grid);
-        dfs(i - 1, j, grid);
-        dfs(i, j + 1, grid);
-        dfs(i, j - 1, grid);
     }
     int numIslands(vector<vector<char>>& grid) {
-        m = grid.size(), n = grid[0].size();
-        int count = 0;
+        int islands = 0;
+
+        m = grid.size();
+        n = grid[0].size();
+
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (grid[i][j] == '1') {
-                    dfs(i, j, grid);
-                    count++;
+                if (grid[i][j] == '1' && visited[i][j] == false) {
+                    dfs(i, j, grid, visited);
+                    islands++;
                 }
             }
         }
-        return count;
+        return islands;
     }
 };
