@@ -2,16 +2,16 @@ class Solution {
 public:
     ListNode* modifiedList(vector<int>& nums, ListNode* head) {
         // Jai Shri Ram
-        unordered_set<int>st(begin(nums), end(nums));
-        
-        ListNode *dummy = new ListNode(0);
-        ListNode *d = dummy;
+        unordered_set<int> st(begin(nums), end(nums));
 
-        ListNode *prev = NULL;
-        ListNode *temp = head;
+        ListNode* dummy = new ListNode(0);
+        ListNode* d = dummy;
 
-        while(temp){
-            if(st.find(temp->val) == st.end()){ // not present in set
+        ListNode* prev = NULL;
+        ListNode* temp = head;
+
+        while (temp) {
+            if (st.find(temp->val) == st.end()) { // not present in set
                 d->next = temp;
                 d = d->next;
             }
