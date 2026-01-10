@@ -1,30 +1,26 @@
 class Solution {
   public:
-    int at_most(string s, int k){
-        int N=s.size(), i = 0, j = 0, count = 0;
-        unordered_map<char, int>mp;
-        
-        while(j < N){
-            mp[s[j]]++;
+    int atMost(int k, string &s){
+        int n = s.size();
+        int i = 0, ans = 0;
+        vector<int>mp(26,0);
+        int distinct = 0;
+        for(int j=0; j<n; j++){
+            if(mp[s[j]-'a']==0) distinct++;
+            mp[s[j]-'a']++;
             
-            while(mp.size() > k){
-                mp[s[i]]--;
-                if(mp[s[i]] == 0){
-                    mp.erase(s[i]);
-                }
+            while(i<n && (int)distinct > k){
+                mp[s[i]-'a']--;
+                if(mp[s[i]-'a'] == 0)distinct--;
                 i++;
             }
-            // Count substrings ending at j with at most k distinct characters
-            count += (j - i + 1);
-            
-            j++;
+            int count = j-i+1;
+            ans += count;
         }
-        return count;
+        return ans;
     }
     int countSubstr(string& s, int k) {
-        // code here.
-        // cout<<at_most(s, k)<<"\n";
-        // cout<<at_most(s, k-1)<<"\n";
-        return at_most(s, k) - at_most(s, k-1);
+        // Jai Shri Ram
+        return atMost(k,s)-atMost(k-1,s);
     }
 };
