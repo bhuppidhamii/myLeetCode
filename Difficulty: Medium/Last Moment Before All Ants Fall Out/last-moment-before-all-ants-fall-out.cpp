@@ -2,15 +2,15 @@ class Solution {
   public:
     int getLastMoment(int n, vector<int>& left, vector<int>& right) {
         // Jai Shri Ram
-        int maxi = 0;
-        for(auto &l:left){
-            int dist = (l-0);
-            maxi = max(maxi, dist);
-        }
+        int maxTime = INT_MIN;
         for(auto &r:right){
-            int dist = (n-r);
-            maxi = max(maxi, dist);
+            int time = n-r;
+            maxTime = max(maxTime, time);
         }
-        return maxi;
+        for(auto &l:left){
+            int time = l;
+            maxTime = max(maxTime, time);
+        }
+        return maxTime;
     }
 };
