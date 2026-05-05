@@ -1,26 +1,43 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
-        vector<int> vc;
-        ListNode* temp=head;
-        while(temp!=nullptr){
-            vc.push_back(temp->val);
-            temp=temp->next;
+        int len = 0;
+        ListNode* temp = head;
+        while (temp != nullptr) {
+            len++;
+            temp = temp->next;
         }
-        int N=vc.size();
-        vector<int> ans(N);
-        for(int i=0;i<N;i++){
-            ans[(i+k)%N]=vc[i];
-        }
+        if (len == 0)
+            return nullptr;
+        k = k % len;
 
-        ListNode *dummy=new ListNode(0);
-        ListNode *P=dummy;
-        for(int i=0;i<N;i++){
-            ListNode* newNode = new ListNode(ans[i]);
-            P->next=newNode;
-            P=P->next;
+        ListNode* head_copy = head;
+        temp = head;
+        while (temp->next != nullptr) {
+            temp = temp->next;
         }
+        // make circular linked list
+        temp->next = head_copy;
+        int rem = len - k - 1;
 
-        return dummy->next;
+        temp = head_copy;
+
+        while (rem && temp) {
+            temp = temp->next;
+            rem--;
+        }
+        head = temp->next;
+        temp->next = nullptr;
+        return head;
     }
 };
